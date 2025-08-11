@@ -18,7 +18,7 @@ app.post("/api/tasks/render", getTasks);
 app.post("/api/tasks/delete", removeTasks);
 
 app.get("/", (req, res) => {
-  res.json({ message: "API is running" });
+  res.json({ message: "API is runningd" });
 });
 
 app.listen(process.env.PORT || 5000, () => {
