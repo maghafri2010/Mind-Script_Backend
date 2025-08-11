@@ -1,38 +1,106 @@
 import { create_task, get_task, remove_task } from "../models/taskModel.js";
 
-
-
 export const Add_task = async (req, res) => {
-    const {title, description, dueDate, status, project, team, user_id} = req.body;
-    if (!user_id) res.status(400).json({message: "There is no user with this ID!"});
+    try {
+        const {title, description, dueDate, status, project, team, user_id} = req.body;
+        
+        if (!user_id) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID is required"
+            });
+        }
 
-    const task_id = await create_task({title, description, dueDate, status, project, team, user_id});
-    res.status(201).json({message: "Task created :", task_id})
+        if (!title || !description) {
+            return res.status(400).json({
+                success: false,
+                message: "Title and description are required"
+            });
+        }
+
+        const task_id = await create_task({title, description, dueDate, status, project, team, user_id});
+        res.status(201).json({
+            success: true,
+            message: "Task created successfully",
+            task_id
+        });
+    } catch (error) {
+        console.error('Add task error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
 }
 
 export const Converting = async (req, res) => {
-    const {task_id, user_id, status} = req.body;
-
+    try {
+        const {task_id, user_id, status} = req.body;
+        
+        // Add your conversion logic here
+        res.status(200).json({
+            success: true,
+            message: "Task status updated successfully"
+        });
+    } catch (error) {
+        console.error('Converting error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
 }
 
 export const getTasks = async (req, res) => {
-    const { user_id } = req.body;
-    if (!user_id) return res.status(400).json({message: "User ID is required"});
     try {
+        const { user_id } = req.body;
+        
+        if (!user_id) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID is required"
+            });
+        }
+
         const tasks = await get_task(user_id);
-        res.status(200).json({tasks});
-    } catch (err) {
-        res.status(500).json({message: "ERROR fetching tasks", error: err.message })
+        res.status(200).json({
+            success: true,
+            tasks
+        });
+    } catch (error) {
+        console.error('Get tasks error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching tasks",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
 }
 
 export const removeTasks = async(req, res) => {
-    const { user_id, task_id } = req.body;
-    if (!user_id || !task_id) return res.status(400).json({message: "This task is not included in the DB"});
     try {
+        const { user_id, task_id } = req.body;
+        
+        if (!user_id || !task_id) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID and Task ID are required"
+            });
+        }
+
         const removed = await remove_task(user_id, task_id);
-        res.status(200).json({message: "Task removed successfully", removed});
-    } catch (err) {
-        res.status(500).json({message: "ERROR Unable to find task"});
+        res.status(200).json({
+            success: true,
+            message: "Task removed successfully",
+            removed
+        });
+    } catch (error) {
+        console.error('Remove task error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Error removing task",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
 }
