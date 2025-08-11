@@ -13,7 +13,7 @@ const corsOptions = {
     'http://localhost:3000',
     'http://localhost:5173',
     'https://maghafri2010.github.io',
-    'https://your-frontend-domain.github.io' // Replace with your actual GitHub Pages domain
+    'https://maghafri2010.github.io/Mind-Script_Frontend' // Your actual GitHub Pages domain
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
