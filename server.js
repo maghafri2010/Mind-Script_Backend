@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { register, Login, logout } from "./controllers/authControllers.js";
 import { Add_task, getTasks, removeTasks } from "./controllers/taskControllers.js";
+import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
 
 dotenv.config();
 const app = express();
@@ -41,6 +42,10 @@ app.post("/api/logout", logout);
 app.post("/api/tasks/add", Add_task);
 app.post("/api/tasks/render", getTasks);
 app.post("/api/tasks/delete", removeTasks);
+
+// Database management routes (for setup and debugging)
+app.post("/api/database/setup", setupDatabase);
+app.get("/api/database/check", checkDatabase);
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
