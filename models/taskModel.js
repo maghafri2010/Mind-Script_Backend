@@ -18,3 +18,6 @@ export const remove_task = async(user_id, task_id) => {
     return result;
 }
 
+export const duplicate_task = async ({title, description, dueDate, status, project, team, user_id}) => {
+    return await create_task({title, description, dueDate, status, project, team, user_id});
+}
