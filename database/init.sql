@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     dueDate DATE,
-    status ENUM('pending', 'in-progress', 'completed', 'cancelled') DEFAULT 'pending',
+    status ENUM('onProgress', 'Completed', 'Upcoming', 'Overdue') DEFAULT 'Upcoming',
     project VARCHAR(100),
     team VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
