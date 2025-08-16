@@ -64,6 +64,8 @@ export const getTasks = async (req, res) => {
         }
 
         const tasks = await get_task(user_id);
+        console.log("Tasks for user", user_id, ":", tasks);
+
         res.status(200).json({
             success: true,
             tasks
