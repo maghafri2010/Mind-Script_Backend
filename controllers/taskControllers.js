@@ -1,4 +1,5 @@
-import { create_task, get_task, remove_task } from "../models/taskModel.js";
+import db from "../config/db.js";
+import { create_task, duplicate_task, edit_task, get_task, remove_task } from "../models/taskModel.js";
 
 export const Add_task = async (req, res) => {
     try {
@@ -32,7 +33,7 @@ export const Add_task = async (req, res) => {
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
-}
+};
 
 export const Converting = async (req, res) => {
     try {
@@ -50,7 +51,7 @@ export const Converting = async (req, res) => {
             message: "Internal server error"
         });
     }
-}
+};
 
 export const getTasks = async (req, res) => {
     try {
@@ -65,7 +66,6 @@ export const getTasks = async (req, res) => {
 
         const tasks = await get_task(user_id);
         console.log("Tasks for user", user_id, ":", tasks);
-
         res.status(200).json({
             success: true,
             tasks
@@ -78,7 +78,7 @@ export const getTasks = async (req, res) => {
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
-}
+};
 
 export const removeTasks = async(req, res) => {
     try {
@@ -103,6 +103,45 @@ export const removeTasks = async(req, res) => {
             success: false,
             message: "Error removing task",
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+};
+
+export const duplicateTasks = async (req, res) => {
+    try {
+        const { task_id } = req.body;
+        const task = await duplicate_task({task_id});
+        res.status(201).json({
+            success: true,
+            message: "Task duplicated successfully",
+            task_id
+        });
+
+
+    } catch (err) {
+        console.log("Duplicated task error: ",err);
+        res.status(500).json({
+            success: false,
+            message: "Error duplicating task"
+        });
+    }
+};
+
+export const editTasks = async (req, res) => {
+    const {title, description, dueDate, status, project, team, task_id} = req.body;
+
+    try {
+        const result = await edit_task({title, description, dueDate, status, project, team, task_id});
+        res.status(201).json({
+            success: true,
+            message: "Task has been edited successfully",
+            task_id
+        });
+    } catch (err) {
+        console.log("Editing task error: ",err);
+        res.status(500).json({
+            success: false,
+            message: "Error editing task"
         });
     }
 };

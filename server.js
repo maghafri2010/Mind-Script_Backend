@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { register, Login, logout } from "./controllers/authControllers.js";
-import { Add_task, getTasks, removeTasks } from "./controllers/taskControllers.js";
+import { Add_task, duplicateTasks, editTasks, getTasks, removeTasks } from "./controllers/taskControllers.js";
 import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
 
 dotenv.config();
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
     success: true,
     message: "API is running successfully",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV 
   });
 });
 
@@ -39,9 +39,13 @@ app.get("/", (req, res) => {
 app.post("/api/login", Login);
 app.post("/api/register", register);
 app.post("/api/logout", logout);
+// Tasks management
 app.post("/api/tasks/add", Add_task);
 app.post("/api/tasks/render", getTasks);
 app.post("/api/tasks/delete", removeTasks);
+app.post("/api/tasks/duplicate", duplicateTasks);
+app.post("/api/tasks/edit", editTasks);
+
 
 // Database management routes (for setup and debugging)
 app.post("/api/database/setup", setupDatabase);
