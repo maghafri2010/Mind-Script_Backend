@@ -1,30 +1,37 @@
-import mysql from 'mysql2/promise';
+import oracledb from 'oracledb';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const db = mysql.createPool({
-  host: process.env.DB_HOST,
+const dbConfig = {
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+  password: process.env.DB_PASS,
+  connectString: `(DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=${process.env.DB_HOST})(PORT=${process.env.DB_PORT}))(CONNECT_DATA=(SERVICE_NAME=${process.env.DB_SERVICE_NAME})))`
+};
 
-// Test the database connection
-const testConnection = async () => {
+let pool;
+
+const initDB = async () => {
   try {
-    const connection = await db.getConnection();
-    console.log('✅ Database connected successfully');
-    connection.release();
-  } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
+    pool = await oracledb.createPool(dbConfig);
+    console.log('✅ Oracle Database connected successfully');
+  } catch (err) {
+    console.error('❌ Oracle Database connection failed:', err);
   }
 };
 
-// Test connection on startup
-testConnection();
+// Test connection
+const testConnection = async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('✅ Test query successful');
+    connection.release();
+  } catch (err) {
+    console.error('❌ Test query failed:', err);
+  }
+};
 
-export default db;
+await initDB();
+await testConnection();
+
+export default pool;
