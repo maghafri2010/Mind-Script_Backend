@@ -1,37 +1,28 @@
-import oracledb from 'oracledb';
-import dotenv from 'dotenv';
+import oracledb from "oracledb";
+import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config();
 
+// Specify the wallet directory
+oracledb.initOracleClient({ libDir: "/usr/lib/oracle/21/client64/lib" }); // only needed if using Instant Client
 const dbConfig = {
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  connectString: `(DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=${process.env.DB_HOST})(PORT=${process.env.DB_PORT}))(CONNECT_DATA=(SERVICE_NAME=${process.env.DB_SERVICE_NAME})))`
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONNECT_STRING,
+  externalAuth: false
 };
-
-let pool;
 
 const initDB = async () => {
   try {
-    pool = await oracledb.createPool(dbConfig);
-    console.log('✅ Oracle Database connected successfully');
+    const connection = await oracledb.getConnection(dbConfig);
+    console.log("✅ Oracle Database connected successfully");
+    await connection.close();
   } catch (err) {
-    console.error('❌ Oracle Database connection failed:', err);
+    console.error("❌ Oracle Database connection failed:", err.message);
   }
 };
 
-// Test connection
-const testConnection = async () => {
-  try {
-    const connection = await pool.getConnection();
-    console.log('✅ Test query successful');
-    connection.release();
-  } catch (err) {
-    console.error('❌ Test query failed:', err);
-  }
-};
+initDB();
 
-await initDB();
-await testConnection();
-
-export default pool;
+export default initDB;
