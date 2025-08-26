@@ -4,12 +4,16 @@ import path from "path";
 
 dotenv.config();
 
-// Specify the wallet directory
-oracledb.initOracleClient({ libDir: "/usr/lib/oracle/21/client64/lib" }); // only needed if using Instant Client
+// Oracle Instant Client
+oracledb.initOracleClient({ libDir: path.join('/home/opc/instantclient_23_9') });
+
+// Point to wallet folder
+process.env.TNS_ADMIN = path.join('/home/opc/wallet');
+
 const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  connectString: process.env.DB_CONNECT_STRING,
+  connectString: process.env.DB_CONNECT_STRING, // TNS name from tnsnames.ora
   externalAuth: false
 };
 
