@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS tasks (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+ALTER TABLE tasks MODIFY COLUMN status ENUM('onProgress', 'Completed', 'Upcoming', 'Overdue') DEFAULT 'Upcoming';
+
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
@@ -41,5 +43,5 @@ CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);
 -- ('johnhero', 'John', 'Hero', 'john@example.com', 'securepass456');
 
 -- INSERT IGNORE INTO tasks (user_id, title, description, dueDate, status, project, team) VALUES 
--- (1, 'Sample Task 1', 'This is a sample task description', '2025-08-15', 'pending', 'Mind-Script', 'Development'),
--- (1, 'Sample Task 2', 'Another sample task', '2025-08-20', 'in-progress', 'Mind-Script', 'Testing');
+-- (1, 'Sample Task 1', 'This is a sample task description', '2025-08-15', 'Completed', 'Mind-Script', 'Development'),
+-- (1, 'Sample Task 2', 'Another sample task', '2025-08-20', 'onProgress', 'Mind-Script', 'Testing');

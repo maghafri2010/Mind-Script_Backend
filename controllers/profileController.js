@@ -1,0 +1,80 @@
+import { use } from "react";
+import { getProfilePicture, profile_Edit, profile_Render } from "../models/userModel";
+
+
+export const profileEdit = async(req, res) => {
+    try {
+        const {username, fisrtname, lastname, email, phone, id} = req.body;
+
+        if (!username, !fisrtname, !lastname, !email, !phone, !id) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            });
+        } 
+        const isEdit = await profile_Edit(username, fisrtname, lastname, email, phone, id);
+
+        if (isEdit) {
+            res.status(201).json({
+            success: true,
+            message: "Info has been edited successfully",
+            userID
+            });
+        }
+    } catch(err) {
+        console.log(err);
+    }
+};
+
+export const profileRender = async (req, res) => {
+
+    try {
+        const {id} = req.body;
+
+    if (!id)
+    {
+        return res.status(400).json({
+            success: false,
+            message: "There is no user with this ID"
+        });
+    }
+    const render = await profile_Render(id);
+
+    if (render)
+    {
+        return res.status(201).json({
+            success: true,
+            message: "Data has been rendered successfully!",
+            user_id
+        })
+    }
+    } catch (err) {
+        console.log(err)
+    }
+    
+}
+
+export const get_Profile_Picture = async (req, res) => {
+    const userID = req.body;
+
+    try {
+        if (!result)
+        {
+            return res.status(400).json({
+            success: false,
+            message: "There is no user with this ID"
+            });        
+        }
+        const result = await getProfilePicture(userID);
+        if (result)
+        {
+            return res.status(201).json({
+                success: true,
+                message: "Data has been rendered successfully!",
+                userID
+            })
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
