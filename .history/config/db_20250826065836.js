@@ -1,18 +1,16 @@
 import oracledb from "oracledb";
 import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config();
 
-// Oracle Instant Client + Wallet
-oracledb.initOracleClient({
-  libDir: "/home/opc/instantclient_23_9",
-  configDir: "/home/opc/wallet"
-});
-
+// Specify the wallet directory
+oracledb.initOracleClient({ libDir: path.join('/home/opc/instantclient_23_9') });
 const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  connectString: process.env.DB_CONNECT_STRING // must match alias in tnsnames.ora
+  connectString: process.env.DB_CONNECT_STRING,
+  externalAuth: false
 };
 
 const initDB = async () => {
@@ -21,7 +19,7 @@ const initDB = async () => {
     console.log("✅ Oracle Database connected successfully");
     await connection.close();
   } catch (err) {
-    console.error("❌ Oracle Database connection failed:", err);
+    console.error("❌ Oracle Database connection failed:", err.message);
   }
 };
 
