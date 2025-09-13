@@ -6,8 +6,6 @@ export const Add_task = async (req, res) => {
         const {title, description, dueDate, status, project, team, user_id} = req.body;
         
         if (!user_id) {
-            console.error("Invalid user_id:", user_id);
-
             return res.status(400).json({
                 success: false,
                 message: "User ID is required"

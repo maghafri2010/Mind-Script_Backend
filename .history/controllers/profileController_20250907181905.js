@@ -30,26 +30,22 @@ export const profileRender = async (req, res) => {
     try {
         const {user_id} = req.body;
 
-    if (!user_id) {
+    if (!user_id)
+    {
         return res.status(400).json({
             success: false,
-            message: "User ID is required"
+            message: "There is no user with this ID"
         });
     }
-
     const render = await profile_Render(user_id);
 
-    if (render) {
+    if (render)
+    {
         return res.status(201).json({
             success: true,
             message: "Data has been rendered successfully!",
-            data: render,
-        });
-    }  else {
-      return res.status(404).json({
-        success: false,
-        message: "No user found with this ID",
-      });
+            user_id
+        })
     }
     } catch (err) {
         console.log(err)
@@ -58,24 +54,23 @@ export const profileRender = async (req, res) => {
 }
 
 export const get_Profile_Picture = async (req, res) => {
-    try {            
-        
-        const { user_id } = req.body;
+    const userID = req.body;
 
-        if (!user_id)
+    try {
+        if (!result)
         {
             return res.status(400).json({
             success: false,
             message: "There is no user with this ID"
             });        
         }
-        const result = await getProfilePicture(user_id);
+        const result = await getProfilePicture(userID);
         if (result)
         {
             return res.status(201).json({
                 success: true,
-                message: "Picture has been rendered successfully!",
-                user_id
+                message: "Data has been rendered successfully!",
+                userID
             })
         }
     } catch (err) {

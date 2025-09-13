@@ -20,19 +20,19 @@ export const profile_Edit = async(username, firstname, lastname, email, phone, i
 };
 
 export const profile_Render = async (id) => {
-    const query = "SELECT * FROM users WHERE user_id = ?";
+    const query = "SELECT * FROM users WHERE id = ?";
     const [result] = await db.execute(query, [id]);
     return result[0];
 };
 
 export const getProfilePicture = async (id) => {
-    const query = "SELECT profile_img FROM users WHERE user_id = ?";
-    const [result] = await db.execute(query, [id]);
-    return result[0];
+    const query = "SELECT picture FROM users WHERE id = ?";
+    const [result] = await db.execute(query, {id});
+    return result;
 };
 
 export const getUsername = async (id) => {
-    const query = "SELECT username FROM users WHERE user_id = ?";
-    const [result] = await db.execute(query, [id]);
-    return result[0];
+    const query = "SELECT username FROM users WHERE id = ?";
+    const [result] = await db.execute(query, {id});
+    return result;
 };

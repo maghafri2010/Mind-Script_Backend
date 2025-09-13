@@ -4,7 +4,7 @@ import cors from "cors";
 import { register, Login, logout } from "./controllers/authControllers.js";
 import { Add_task, duplicateTasks, editTasks, getTasks, removeTasks } from "./controllers/taskControllers.js";
 import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
-import { get_Profile_Picture, profileEdit, profileRender } from "./controllers/profileController.js";
+import { profileEdit, profileRender } from "./controllers/profileController.js";
 
 dotenv.config();
 const app = express();
@@ -14,7 +14,7 @@ const corsOptions = {
   origin: [
     'https://mind-script-backend.onrender.com/',
     'http://localhost:3306',
-    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5173/Mind-Script_Frontend/',
     'http://localhost:5000',
     'http://localhost:5173',
     'https://maghafri2010.github.io',
@@ -51,7 +51,6 @@ app.post("/api/tasks/duplicate", duplicateTasks);
 app.post("/api/tasks/edit", editTasks);
 app.post("/api/profile/edit", profileEdit );
 app.post("/api/profile/render", profileRender);
-app.post("/api/profile/picture", get_Profile_Picture);
 
 // Database management routes (for setup and debugging)
 app.post("/api/database/setup", setupDatabase);

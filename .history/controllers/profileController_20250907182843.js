@@ -74,7 +74,7 @@ export const get_Profile_Picture = async (req, res) => {
         {
             return res.status(201).json({
                 success: true,
-                message: "Picture has been rendered successfully!",
+                message: "Data has been rendered successfully!",
                 user_id
             })
         }
