@@ -6,7 +6,6 @@ import { Add_task, duplicateTasks, editTasks, getTasks, removeTasks } from "./co
 import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
 import { get_Profile_Picture, profileEdit, profileRender } from "./controllers/profileController.js";
 import { get_Reminder } from "./controllers/reminderControllers.js";
-import { get_projects } from "./controllers/projectController.js";
 
 dotenv.config();
 const app = express();
@@ -57,10 +56,6 @@ app.post("/api/profile/picture", get_Profile_Picture);
 
 // Reminders management
 app.post("/api/reminders/render", get_Reminder);
-
-// Projects management
-app.post("/api/projects/render", get_projects);
-
 // Database management routes (for setup and debugging)
 app.post("/api/database/setup", setupDatabase);
 app.get("/api/database/check", checkDatabase);

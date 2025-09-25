@@ -11,7 +11,7 @@ export const profileEdit = async(req, res) => {
                 message: "All fields are required"
             });
         } 
-        const isEdit = await profile_Edit(username, fisrtname, lastname, email, phone, created_at, id);
+        const isEdit = await profile_Edit(username, fisrtname, lastname, email, phone, id);
 
         if (isEdit) {
             res.status(201).json({

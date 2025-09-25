@@ -51,7 +51,3 @@ CREATE TABLE IF NOT EXISTS projects (
 -- INSERT IGNORE INTO reminders (user_id, title, description, dueDate) VALUES 
 -- (1, 'Sample Task 1', 'This is a sample task description', '2025-08-15'),
 -- (1, 'Sample Task 2', 'Another sample task', '2025-08-20');
-
--- INSERT IGNORE INTO projects (user_id, title, dueDate) VALUES 
--- (1, 'Sample Project 1', '2025-08-15'),
--- (1, 'Sample Project 2', '2025-08-20');

@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Create tasks table
-CREATE TABLE IF NOT EXISTS projects (
-    project_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS tasks (
+    reminder_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -38,8 +38,6 @@ CREATE TABLE IF NOT EXISTS projects (
 -- Insert sample data for testing (optional)
 -- You can uncomment these lines if you want test data
 
-
-
 -- INSERT IGNORE INTO users (username, firstname, lastname, email, password) VALUES 
 -- ('testuser', 'Test', 'User', 'test@example.com', 'password123'),
 -- ('johnhero', 'John', 'Hero', 'john@example.com', 'securepass456');
@@ -51,7 +49,3 @@ CREATE TABLE IF NOT EXISTS projects (
 -- INSERT IGNORE INTO reminders (user_id, title, description, dueDate) VALUES 
 -- (1, 'Sample Task 1', 'This is a sample task description', '2025-08-15'),
 -- (1, 'Sample Task 2', 'Another sample task', '2025-08-20');
-
--- INSERT IGNORE INTO projects (user_id, title, dueDate) VALUES 
--- (1, 'Sample Project 1', '2025-08-15'),
--- (1, 'Sample Project 2', '2025-08-20');
