@@ -5,8 +5,9 @@ import { register, Login, logout } from "./controllers/authControllers.js";
 import { Add_task, duplicateTasks, editTasks, getTasks, removeTasks } from "./controllers/taskControllers.js";
 import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
 import { get_Profile_Picture, profileEdit, profileRender } from "./controllers/profileController.js";
-import { get_Reminder } from "./controllers/reminderControllers.js";
-import { get_projects } from "./controllers/projectController.js";
+import { create_reminder, duplicate_reminder, get_Reminder, remove_reminder } from "./controllers/reminderControllers.js";
+import { create_project, duplicate_project, edit_project, get_projects } from "./controllers/projectController.js";
+import { editReminder } from "./models/reminderModel.js";
 
 dotenv.config();
 const app = express();
@@ -57,9 +58,23 @@ app.post("/api/profile/picture", get_Profile_Picture);
 
 // Reminders management
 app.post("/api/reminders/render", get_Reminder);
+app.post("/api/reminders/add", create_reminder);
+app.post("/api/reminders/delete" , remove_reminder);
+app.post("/api/reminders/duplicate", duplicate_reminder);
+app.post("/api/reminders/edit", editReminder);
+
+
 
 // Projects management
 app.post("/api/projects/render", get_projects);
+app.post("/api/projects/add", create_project);
+app.post("/api/projects/delete", remove_reminder);
+app.post("/api/projects/duplicate", duplicate_project);
+app.post("/api/projects/edit", edit_project);
+
+
+
+
 
 // Database management routes (for setup and debugging)
 app.post("/api/database/setup", setupDatabase);
