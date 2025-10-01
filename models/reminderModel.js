@@ -37,9 +37,32 @@ export const duplicateReminder = async ({ reminder_id }) => {
     return { reminder_id: result.insertId };
 };
 
-export const editReminder = async ({ title, description, dueDate, status, reminder_id, user_id }) => {
-    const query = "UPDATE reminders SET title = ?, description = ?, dueDate = ?, status = ? WHERE reminder_id = ? AND user_id = ?";
-    const [result] = await db.execute(query, [title, description, dueDate, status, reminder_id, user_id]);
-    return result;
+export const editReminder = async ({
+  title,
+  description,
+  dueDate,
+  status,
+  reminder_id,
+  user_id
+}) => {
+
+  const query = `
+    UPDATE reminders
+    SET title = ?, description = ?, dueDate = ?, status = ?
+    WHERE reminder_id = ?
+  `;
+
+  const params = user_id
+    ? [title, description, dueDate, status, reminder_id, user_id]
+    : [title, description, dueDate, status, reminder_id];
+
+  const [result] = await db.execute(query, params);
+
+  if (result.affectedRows === 0) {
+    return { success: false, message: "No reminder updated. Check reminder_id/user_id." };
+  }
+
+  return { success: true, message: "Reminder updated successfully" }
 };
+
 

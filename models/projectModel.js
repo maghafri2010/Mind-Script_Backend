@@ -1,12 +1,12 @@
 import db from "../config/db.js";
 
 export const getProjects = async (user_id) => {
-  const query = "SELECT project_id, title, dueDate, status FROM projects WHERE user_id = ?";
+  const query = "SELECT project_id, title, description, dueDate, status, user_id FROM projects WHERE user_id = ?";
   const [result] = await db.execute(query, [user_id]);
   return result;
 };
 
-export const createProject = async (title, description, dueDate, status, user_id) => {
+export const createProject = async ({title, description, dueDate, status, user_id}) => {
   const query =
     "INSERT INTO projects (title, description, dueDate, status, user_id) VALUES (?, ?, ?, ?, ?)";
   const [result] = await db.execute(query, [
@@ -49,15 +49,24 @@ export const editProject = async ({
   dueDate,
   status,
   project_id,
+  user_id, 
 }) => {
-  const query =
-    "UPDATE projects SET title = ?, description = ?, dueDate = ?, status = ? WHERE project_id = ?";
-  const [result] = await db.execute(query, [
-    title,
-    description,
-    dueDate,
-    status,
-    project_id,
-  ]);
-  return result;
+  const query = `
+    UPDATE projects 
+    SET title = ?, description = ?, dueDate = ?, status = ? 
+    WHERE project_id = ? ${user_id ? "AND user_id = ?" : ""}
+  `;
+
+  const params = user_id
+    ? [title, description, dueDate, status, project_id, user_id]
+    : [title, description, dueDate, status, project_id];
+
+  const [result] = await db.execute(query, params);
+
+  if (result.affectedRows === 0) {
+    return { success: false, message: "No project updated. Check project_id/user_id." };
+  }
+
+  return { success: true, message: "Project updated successfully" };
 };
+

@@ -1,6 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import jwt from "jsonwebtoken";
+import { authenticateJWT } from './middlewares/authMiddleware.js';
+
 import { register, Login, logout } from "./controllers/authControllers.js";
 import { Add_task, duplicateTasks, editTasks, getTasks, removeTasks } from "./controllers/taskControllers.js";
 import { setupDatabase, checkDatabase } from "./controllers/databaseController.js";
@@ -45,40 +48,40 @@ app.get("/", (req, res) => {
 // API Routes
 app.post("/api/login", Login);
 app.post("/api/register", register);
-app.post("/api/logout", logout);
+app.post("/api/logout", authenticateJWT, logout);
 // Tasks management
-app.post("/api/tasks/add", Add_task);
-app.post("/api/tasks/render", getTasks);
-app.post("/api/tasks/delete", removeTasks);
-app.post("/api/tasks/duplicate", duplicateTasks);
-app.post("/api/tasks/edit", editTasks);
-app.post("/api/profile/edit", profileEdit );
-app.post("/api/profile/render", profileRender);
-app.post("/api/profile/picture", get_Profile_Picture);
+app.post("/api/tasks/add", authenticateJWT, Add_task);
+app.post("/api/tasks/render", authenticateJWT, getTasks);
+app.post("/api/tasks/delete", authenticateJWT, removeTasks);
+app.post("/api/tasks/duplicate", authenticateJWT, duplicateTasks);
+app.post("/api/tasks/edit", authenticateJWT, editTasks);
+app.post("/api/profile/edit", authenticateJWT, profileEdit );
+app.post("/api/profile/render", authenticateJWT, profileRender);
+app.post("/api/profile/picture", authenticateJWT, get_Profile_Picture);
 
 // Reminders management
-app.post("/api/reminders/render", get_Reminder);
-app.post("/api/reminders/add", create_reminder);
-app.post("/api/reminders/delete" , remove_reminder);
-app.post("/api/reminders/duplicate", duplicate_reminder);
-app.post("/api/reminders/edit", editReminder);
+app.post("/api/reminders/render", authenticateJWT, get_Reminder);
+app.post("/api/reminders/add", authenticateJWT, create_reminder);
+app.post("/api/reminders/delete" , authenticateJWT, remove_reminder);
+app.post("/api/reminders/duplicate", authenticateJWT, duplicate_reminder);
+app.post("/api/reminders/edit", authenticateJWT, editReminder);
 
 
 
 // Projects management
-app.post("/api/projects/render", get_projects);
-app.post("/api/projects/add", create_project);
-app.post("/api/projects/delete", remove_reminder);
-app.post("/api/projects/duplicate", duplicate_project);
-app.post("/api/projects/edit", edit_project);
+app.post("/api/projects/render", authenticateJWT, get_projects);
+app.post("/api/projects/add", authenticateJWT, create_project);
+app.post("/api/projects/delete", authenticateJWT, remove_reminder);
+app.post("/api/projects/duplicate", authenticateJWT, duplicate_project);
+app.post("/api/projects/edit", authenticateJWT, edit_project);
 
 
 
 
 
 // Database management routes (for setup and debugging)
-app.post("/api/database/setup", setupDatabase);
-app.get("/api/database/check", checkDatabase);
+app.post("/api/database/setup", authenticateJWT, setupDatabase);
+app.get("/api/database/check", authenticateJWT, checkDatabase);
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {

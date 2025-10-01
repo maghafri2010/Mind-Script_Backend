@@ -49,36 +49,36 @@ export const create_project = async (req, res) => {
 };
 
 export const remove_project = async (req, res) => {
+  console.log("BODY RECEIVED:", req.body); // <-- add this
 
-    try {
-        const {user_id, project_id} = req.body;
+  try {
+    const { user_id, project_id } = req.body;
 
-        if (!user_id) {
-            return res.status(400).json({
-                success: false,
-                message: "There is smth wrong with User Id"
-            });
-        }
-        if (!project_id) {
-            return res.status(400).json({
-                success: false,
-                message: "There is smth wrong with project id"
-            });
-        }
-
-        const removed = await removeProject({user_id, project_id});
-
-        res.status(200).json({
-            success: true,
-            message: "Project has been removed successfully",
-            removed
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false, message: "Server error" });
+    if (!user_id) {
+      return res.status(400).json({
+        success: false,
+        message: "There is something wrong with User Id",
+      });
     }
-};
+    if (!project_id) {
+      return res.status(400).json({
+        success: false,
+        message: "There is something wrong with project id",
+      });
+    }
 
+    const removed = await removeProject({ user_id, project_id });
+
+    res.status(200).json({
+      success: true,
+      message: "Project has been removed successfully",
+      removed,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 export const duplicate_project = async (req, res) => {
 
     try {
@@ -107,7 +107,6 @@ export const duplicate_project = async (req, res) => {
 export const edit_project = async (req, res) => {
     try {
             const {title, description, dueDate, status, project_id} = req.body;
-
         if (!title || !description || !dueDate || !status || !project_id) {
             return res.status(400).json({
                 success: false,
@@ -115,7 +114,7 @@ export const edit_project = async (req, res) => {
             });
         }
 
-        await editProject({ title, description, dueDate, status, project_id });
+        const result = await editProject({ title, description, dueDate, status, project_id });
 
         res.status(201).json({
             success: true,

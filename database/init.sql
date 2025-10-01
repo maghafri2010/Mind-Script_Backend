@@ -42,6 +42,6 @@ CREATE TABLE IF NOT EXISTS tasks (
 -- ('testuser', 'Test', 'User', 'test@example.com', 'password123'),
 -- ('johnhero', 'John', 'Hero', 'john@example.com', 'securepass456');
 
--- INSERT IGNORE INTO tasks (user_id, title, description, dueDate, status, project, team) VALUES 
--- (1, 'Sample Task 1', 'This is a sample task description', '2025-08-15', 'Completed', 'Mind-Script', 'Development'),
--- (1, 'Sample Task 2', 'Another sample task', '2025-08-20', 'onProgress', 'Mind-Script', 'Testing');
+INSERT IGNORE INTO tasks (user_id, title, description, dueDate, status, project, team) VALUES 
+(4, 'Sample Task 5', 'This is a sample task description', '2025-08-15', 'Completed', 'Mind-Script', 'Development'),
+(4, 'Sample Task 8', 'Another sample task', '2025-08-20', 'onProgress', 'Mind-Script', 'Testing');

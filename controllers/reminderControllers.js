@@ -109,9 +109,9 @@ export const duplicate_reminder = async (req, res) => {
 }
 
 export const edit_reminder = async (req, res) => {
-    try {
-            const {title, description, dueDate, status, reminder_id} = req.body;
+    const {title, description, dueDate, status, reminder_id} = req.body;
 
+    try {
         const result = await editReminder({title, description, dueDate, status, reminder_id});
         res.status(201).json({
             success: true,
@@ -119,6 +119,10 @@ export const edit_reminder = async (req, res) => {
             reminder_id
         });
     } catch (err) {
-        console.log(err)
+        console.log("Editing reminder error: ",err);
+        res.status(500).json({
+            success: false,
+            message: "Error reminder task"
+        });    
     }
-}
+};
