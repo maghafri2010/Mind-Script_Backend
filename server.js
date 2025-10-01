@@ -18,7 +18,7 @@ const app = express();
 // CORS configuration for production
 const corsOptions = {
   origin: [
-    'https://mind-script-backend.onrender.com/',
+    'https://mind-scriptbackend-production-0888.up.railway.app',
     'http://localhost:3306',
     'http://127.0.0.1:5173',
     'http://localhost:5000',
@@ -111,7 +111,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-const PORT = process.env.SERVER_PORT || 8000;
+const PORT = process.env.SERVER_PORT || 5000;
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
